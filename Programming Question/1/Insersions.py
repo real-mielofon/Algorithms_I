@@ -24,17 +24,19 @@ def brut_fopce(lines):
 
 def merge_sort_split(list1, list2):
     result = []
-    i,j = 0,0
+    i, j = 0, 0
     c = 0
-    for k in range(0, len(list1)+len(list2)):
-        if (j>=len(list2)) or ((i<len(list1)) and (list1[i] < list2[j])):
+    for k in range(0, len(list1) + len(list2)):
+        if (j >= len(list2)) or ((i < len(list1)) and (list1[i] < list2[j])):
             result.append(list1[i])
-            i=i+1
+            i = i + 1
         else: 
             result.append(list2[j])
-            j=j+1
-            if i<len(list1):
-              c=c+(len(list1) - i)
+            j = j + 1
+            u = i
+            while (u < len(list1)) and (list1[u] > list2[j]):
+                if i < len(list1):
+                  c = c + 1
     return result, c 
     
 def merge_sort_count(list, stab):
@@ -93,7 +95,8 @@ def create_lines_random(num):
 import winsound
 if __name__ == '__main__':
 #    lines= create_lines_from_file()
-    lines= create_lines_random(20)
+#    lines= create_lines_random(6)
+    lines = [1, 3, 0, 5, 3, 1]
 
 #    lines= create_lines_down(2000)
 #    lines = [1,3,5,2,4,6]
