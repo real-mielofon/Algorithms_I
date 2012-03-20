@@ -15,47 +15,51 @@ So if your answer is 1198233847, then just type 1198233847 in the space provided
 '''
 def brut_fopce(lines):
     c = 0
+    pairs = []
     for i in range(0,len(lines)):
       for j in range(i+1,len(lines)):
         if lines[i] > lines[j]:
             #print "(", i,", ", j, ")"
-            c = c+1
-    return c
+            c = c + 1
+            pairs.append([lines[i], lines[j]])
+    return c, pairs
 
 def merge_sort_split(list1, list2):
     result = []
     i, j = 0, 0
     c = 0
+    pairs = []
     for k in range(0, len(list1) + len(list2)):
-        if (j >= len(list2)) or ((i < len(list1)) and (list1[i] < list2[j])):
+        if (j >= len(list2)) or ((i < len(list1)) and (list1[i] <= list2[j])):
             result.append(list1[i])
             i = i + 1
         else: 
             result.append(list2[j])
-            j = j + 1
             u = i
             while (u < len(list1)) and (list1[u] > list2[j]):
-                if i < len(list1):
-                  c = c + 1
-    return result, c 
+                c = c + 1
+                pairs.append([list1[u], list2[j]])
+                u = u + 1
+            j = j + 1
+    return result, c, pairs 
     
 def merge_sort_count(list, stab):
     if len(list) <= 1:
-        return list, 0
+        return list, 0, []
     else:
         n = len(list) // 2
         
-        sort1, x = merge_sort_count(list[:n], stab+'  ')
-        sort2, y = merge_sort_count(list[n:], stab+'  ')
+        sort1, x, pairs1 = merge_sort_count(list[:n], stab+'  ')
+        sort2, y, pairs2 = merge_sort_count(list[n:], stab+'  ')
 #        print stab, "x= %8d sort1(%6d)"%(x,len(sort1))
 #        print stab, sort1
 #        print stab, "y= %8d sort2(%6d)"%(y,len(sort2))
 #        print stab, sort2
-        sort, z = merge_sort_split(sort1, sort2)
+        sort, z, pairs3 = merge_sort_split(sort1, sort2)
 #        print stab, "z= %8d  sort(%6d)"%(z,len(sort))
 #        print stab, sort
         
-        return sort, x+y+z
+        return sort, x+y+z, pairs1+pairs2+pairs3
 
 
 def create_lines_from_file():
@@ -82,6 +86,17 @@ def create_lines_up(num):
     
     return lines
 
+
+def create_lines_random_merge(num):
+    lines = []
+    for i in range(0, num):
+        lines.append(i)
+    for i in range(0, 2*num):
+        k,n = random.randrange(num), random.randrange(num)
+        lines[k], lines[n] = lines[n], lines[k]
+    
+    return lines
+
 import random
 
 def create_lines_random(num):
@@ -94,19 +109,21 @@ def create_lines_random(num):
 
 import winsound
 if __name__ == '__main__':
-#    lines= create_lines_from_file()
-#    lines= create_lines_random(6)
-    lines = [1, 3, 0, 5, 3, 1]
-
+    lines= create_lines_from_file()
+#    lines= create_lines_random(60)
+#    lines= create_lines_random_merge(200)
+#    lines = [1, 3, 0, 5, 4, 2]
 #    lines= create_lines_down(2000)
 #    lines = [1,3,5,2,4,6]
     print "(%d)="%(len(lines)*(len(lines)-1)/2), lines
-    sortlines, c = merge_sort_count(lines, "")
+    sortlines, c, pairs = merge_sort_count(lines, "")
     print " " #2397810677
     print c #2397810677
+    print pairs[:10]
 
-    c = brut_fopce(lines)
+    c, pairs = brut_fopce(lines)
     print " " #2397810677
     print c #2397810677
+    print pairs[:10]
 
     
