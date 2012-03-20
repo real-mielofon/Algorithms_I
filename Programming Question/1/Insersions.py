@@ -92,8 +92,8 @@ def create_lines_random(num):
 
 import winsound
 if __name__ == '__main__':
-    lines= create_lines_from_file()
-#    lines= create_lines_random(2000)
+#    lines= create_lines_from_file()
+    lines= create_lines_random(20)
 
 #    lines= create_lines_down(2000)
 #    lines = [1,3,5,2,4,6]
