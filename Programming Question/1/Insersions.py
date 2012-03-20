@@ -115,7 +115,9 @@ if __name__ == '__main__':
 #    lines = [1, 3, 0, 5, 4, 2]
 #    lines= create_lines_down(2000)
 #    lines = [1,3,5,2,4,6]
+
     print "(%d)="%(len(lines)*(len(lines)-1)/2), lines
+
     sortlines, c, pairs = merge_sort_count(lines, "")
     print " " #2397810677
     print c #2397810677
