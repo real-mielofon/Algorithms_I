@@ -19,16 +19,13 @@ def brut_fopce(lines):
     for i in range(0,len(lines)):
       for j in range(i+1,len(lines)):
         if lines[i] > lines[j]:
-            #print "(", i,", ", j, ")"
             c = c + 1
-            pairs.append([lines[i], lines[j]])
-    return c, pairs
+    return c
 
 def merge_sort_split(list1, list2):
     result = []
     i, j = 0, 0
     c = 0
-    pairs = []
     for k in range(0, len(list1) + len(list2)):
         if (j >= len(list2)) or ((i < len(list1)) and (list1[i] <= list2[j])):
             result.append(list1[i])
@@ -38,28 +35,22 @@ def merge_sort_split(list1, list2):
             u = i
             while (u < len(list1)) and (list1[u] > list2[j]):
                 c = c + 1
-                pairs.append([list1[u], list2[j]])
                 u = u + 1
             j = j + 1
-    return result, c, pairs 
+    return result, c 
     
 def merge_sort_count(list, stab):
     if len(list) <= 1:
-        return list, 0, []
+        return list, 0
     else:
         n = len(list) // 2
         
-        sort1, x, pairs1 = merge_sort_count(list[:n], stab+'  ')
-        sort2, y, pairs2 = merge_sort_count(list[n:], stab+'  ')
-#        print stab, "x= %8d sort1(%6d)"%(x,len(sort1))
-#        print stab, sort1
-#        print stab, "y= %8d sort2(%6d)"%(y,len(sort2))
-#        print stab, sort2
-        sort, z, pairs3 = merge_sort_split(sort1, sort2)
-#        print stab, "z= %8d  sort(%6d)"%(z,len(sort))
-#        print stab, sort
+        sort1, x = merge_sort_count(list[:n], stab+'  ')
+        sort2, y = merge_sort_count(list[n:], stab+'  ')
+
+        sort, z = merge_sort_split(sort1, sort2)
         
-        return sort, x+y+z, pairs1+pairs2+pairs3
+        return sort, x+y+z
 
 
 def create_lines_from_file():
@@ -118,14 +109,12 @@ if __name__ == '__main__':
 
     print "(%d)="%(len(lines)*(len(lines)-1)/2), lines
 
-    sortlines, c, pairs = merge_sort_count(lines, "")
+    sortlines, c = merge_sort_count(lines, "")
     print " " #2397810677
     print c #2397810677
-    print pairs[:10]
 
-    c, pairs = brut_fopce(lines)
+    c = brut_fopce(lines)
     print " " #2397810677
     print c #2397810677
-    print pairs[:10]
 
     
