@@ -32,21 +32,21 @@ def merge_sort_split(list1, list2):
             i = i + 1
         else: 
             result.append(list2[j])
-            u = i
-            while (u < len(list1)) and (list1[u] > list2[j]):
+            for u in range(i, len(list1)):
+                if list1[u] <= list2[j]:
+                    break
                 c = c + 1
-                u = u + 1
             j = j + 1
     return result, c 
     
-def merge_sort_count(list, stab):
+def merge_sort_count(list):
     if len(list) <= 1:
         return list, 0
     else:
         n = len(list) // 2
         
-        sort1, x = merge_sort_count(list[:n], stab+'  ')
-        sort2, y = merge_sort_count(list[n:], stab+'  ')
+        sort1, x = merge_sort_count(list[:n])
+        sort2, y = merge_sort_count(list[n:])
 
         sort, z = merge_sort_split(sort1, sort2)
         
@@ -101,15 +101,15 @@ def create_lines_random(num):
 import winsound
 if __name__ == '__main__':
     lines= create_lines_from_file()
-#    lines= create_lines_random(60)
+#    lines= create_lines_random(60000)
 #    lines= create_lines_random_merge(200)
 #    lines = [1, 3, 0, 5, 4, 2]
 #    lines= create_lines_down(2000)
 #    lines = [1,3,5,2,4,6]
 
-    print "(%d)="%(len(lines)*(len(lines)-1)/2), lines
+    print "(%d, %d)="%(len(lines), len(lines)*(len(lines)-1)/2), lines
 
-    sortlines, c = merge_sort_count(lines, "")
+    sortlines, c = merge_sort_count(lines)
     print " " #2397810677
     print c #2397810677
 
